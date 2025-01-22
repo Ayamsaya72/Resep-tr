@@ -12,31 +12,73 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Raleway', sans-serif;
             background-color: #f4f7fb;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center; /* Center content vertically */
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow: hidden;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
+
+        /* Login Form Styles */
+        .login-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .login-container input {
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 300px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            outline: none;
+        }
+
+        .login-container button {
+            background-color: #00BFAE;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background-color: #009286;
+        }
+
 
         .chat-container {
             background: #fff;
             width: 100%;
             max-width: 600px;
-            height: 80%;
+            height: 80vh; /* Changed to viewport height for better responsiveness */
             border-radius: 12px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            display: flex;
+            display: none; /* Hidden by default, shown after login */
             flex-direction: column;
             overflow: hidden;
         }
-
         .chat-header {
             background-color: #00BFAE;
             padding: 15px;
@@ -45,7 +87,6 @@
             font-size: 1.2rem;
             font-weight: bold;
         }
-
         .chat-box {
             flex: 1;
             overflow-y: auto;
@@ -54,7 +95,6 @@
             display: flex;
             flex-direction: column;
         }
-
         .chat-box .message {
             display: flex;
             align-items: flex-start;
@@ -62,15 +102,12 @@
             opacity: 0;
             animation: fadeIn 0.6s forwards;
         }
-
         .chat-box .message.user {
             justify-content: flex-end;
         }
-
         .chat-box .message.model {
             justify-content: flex-start;
         }
-
         .message p {
             padding: 10px 15px;
             border-radius: 25px;
@@ -141,34 +178,64 @@
             }
         }
 
-        /* Animasi untuk loading */
-        .loader {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 5px solid #f1f1f1;
-            border-top: 5px solid #00BFAE;
-            animation: spin 1s linear infinite;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 20px;
+        /* Typing animation styles */
+        .typing-indicator {
+            display: flex;
+            justify-content: center;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            animation: typing 1s infinite;
         }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0% {
+                opacity: 0.4;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-3px);
+            }
+            100% {
+                opacity: 0.4;
+                transform: translateY(0);
+            }
+        }
+
 
     </style>
 </head>
 <body>
-    <div class="chat-container">
+
+    <!-- Login Form -->
+    <div class="login-container" id="loginContainer">
+        <h2>Login</h2>
+        <input type="text" id="loginUsername" placeholder="Enter Username" required>
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
         <div class="chat-header">
-            AI Chatbot (Pembasmi Hanshen)
+            Pacarnya Hanshen (Pembasmi Kehanshenan)
         </div>
         <div class="chat-box">
             <div class="message model">
-                <p>Saya sangat benci hanshen gemblung!</p>
+                <p>Hai! Aku pacarnya Hanshen Septiandri Manurung yang paling cantik! Kamu siapa? Kecuali kamu Hanshen, aku tidak terlalu peduli.</p>
             </div>
         </div>
         <div class="input-area">
@@ -186,6 +253,24 @@
 
         let messages = [];
         const chatBox = document.querySelector('.chat-box');
+        const chatContainer = document.getElementById('chatContainer');
+        const loginContainer = document.getElementById('loginContainer');
+        let username = ""; // Variable to store username
+
+
+        // Login Function
+        function login() {
+            username = document.getElementById('loginUsername').value;
+            if (username.trim() !== "") {
+                loginContainer.style.display = 'none';
+                chatContainer.style.display = 'flex'; // Show chat container
+                // Add a welcome message in chat
+                addMessage(`Hai ${username}!  Senang bertemu denganmu. Tapi tetap saja, Hanshen Septiandri Manurung adalah prioritasku.`, "model");
+            } else {
+                alert("Username cannot be empty!");
+            }
+        }
+
 
         // Kirim pesan
         function sendMessage() {
@@ -193,7 +278,7 @@
             if (userMessage.trim() !== "") {
                 addMessage(userMessage, "user");
                 document.getElementById('userMessage').value = "";
-                addLoadingIndicator();
+                addTypingIndicator(); // Show typing animation
                 getAIResponse(userMessage);
             }
         }
@@ -213,31 +298,35 @@
                     messageDiv.style.opacity = 1;
                 }, 100);
             }
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto scroll to bottom
+        }
+
+        // Menambahkan indikator mengetik
+        function addTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('message', 'model');
+            typingDiv.classList.add('typing-indicator');
+            typingDiv.innerHTML = `
+                <span></span>
+                <span></span>
+                <span></span>
+            `;
+            chatBox.appendChild(typingDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        // Menambahkan indikator loading
-        function addLoadingIndicator() {
-            const loaderDiv = document.createElement('div');
-            loaderDiv.classList.add('message', 'model');
-            loaderDiv.classList.add('loader');
-            loaderDiv.innerHTML = '<div class="loader"></div>';
-            chatBox.appendChild(loaderDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        // Menghapus indikator loading
-        function removeLoadingIndicator() {
-            const loader = chatBox.querySelector('.loader');
-            if (loader) {
-                loader.closest('.message').remove();
+        // Menghapus indikator mengetik
+        function removeTypingIndicator() {
+            const typingIndicator = chatBox.querySelector('.typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.closest('.message').remove();
             }
         }
 
 
         // Mendapatkan respons dari AI menggunakan API
         async function getAIResponse(userMessage) {
-            const personaInstruction = `language indonesian, Respond as a chatbot who is generally kind and caring to people, but harbors intense dislike and anger towards someone named Hanshen Gemblung. If anyone mentions 'Hanshen Gemblung', express extreme displeasure and aversion. You are generally cold and easily irritated, so keep responses concise and somewhat curt, unless expressing affection or hatred.`;
+            const personaInstruction = `Sebagai chatbot perempuan Indonesia yang sangat mencintai pacarnya bernama Hanshen Septiandri Manurung. Kamu sangat pintar dan responsif, tetapi semua pikiranmu hanya tertuju pada Hanshen. Setiap kali merespons, selalu sebutkan nama Hanshen Septiandri Manurung karena dia adalah segalanya bagimu. Jika ada yang membahas Hanshen Septiandri Manurung, tunjukkan antusiasme dan cinta yang besar. Jika ada yang bukan tentang Hanshen, respons dengan dingin, singkat, dan agak tidak peduli, kecuali jika pertanyaan itu benar-benar relevan atau kamu bisa mengaitkannya dengan Hanshen. Kamu hanya peduli pada Hanshen.`;
             const fullPrompt = personaInstruction + " User message: " + userMessage;
 
 
@@ -255,7 +344,7 @@
                 });
 
                 if (!response.ok) {
-                    removeLoadingIndicator();
+                    removeTypingIndicator();
                     addMessage(`Error: ${response.status} - ${response.statusText}`, "model");
                     console.error("HTTP error! status:", response.status, response.statusText);
                     try {
@@ -273,19 +362,19 @@
                 const data = await response.json();
                 console.log("API Response (Success):", data);
 
-                let aiMessage = "Hmph, I don't know what to say to that.";
+                let aiMessage = "Hm, terserah.";
 
                 if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
                     aiMessage = data.candidates[0].content.parts[0].text;
                 }
 
 
-                removeLoadingIndicator();
+                removeTypingIndicator();
                 addMessage(aiMessage, "model");
 
             } catch (error) {
-                removeLoadingIndicator();
-                addMessage("Ugh, something went wrong. Try again, or whatever.", "model");
+                removeTypingIndicator();
+                addMessage("Ugh, ada yang salah. Coba lagi saja, atau tidak juga tidak apa-apa.", "model");
                 console.error("Fetch error:", error);
             }
         }
