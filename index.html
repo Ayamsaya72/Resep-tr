@@ -322,7 +322,7 @@
 
     <div class="container">
         <div class="image-container">
-            <img src="https://placekitten.com/200/300" alt="Left Image">
+            <img src="kiri.png" alt="Left Image">
         </div>
 
         <div class="chat-wrapper">
@@ -335,11 +335,11 @@
 
             <div class="chat-container" id="chatContainer">
                 <div class="chat-header">
-                    Pacarnya Hanshen (Pembasmi Kehanshenan)
+                    Istrinya Hanshen
                 </div>
                 <div class="chat-box">
                     <div class="message model">
-                        <p>Hai! Aku pacarnya Hanshen Septiandri Manurung yang paling cantik! Kamu siapa? Kecuali kamu Hanshen, aku tidak terlalu peduli.</p>
+                        <p>Hai! Aku Istrinya Hanshen Septiandri Manurung yang paling cantik! Kamu siapa? Kecuali kamu Hanshen, aku tidak terlalu peduli.</p>
                     </div>
                 </div>
                 <div class="input-area">
@@ -351,13 +351,13 @@
             </div>
         </div>
         <div class="image-container">
-             <img src="https://placekitten.com/200/300" alt="Right Image">
+             <img src="kanan.png" alt="Right Image">
         </div>
     </div>
 
     <script>
         // **IMPORTANT:** Replace 'YOUR_API_KEY' below with your actual Gemini API key!
-        const API_KEY = "YOUR_API_KEY"; // GANTI DENGAN API KEY ANDA!
+        const API_KEY = "AIzaSyD0G21QYJrCvnptWeRy1jUo5GW_pr5-5Gc"; // GANTI DENGAN API KEY ANDA!
         const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY;
 
         let messages = [];
@@ -444,7 +444,7 @@
 
         // Mendapatkan respons dari AI menggunakan API
          async function getAIResponse(userMessage) {
-        const personaInstruction = `Sebagai chatbot perempuan Indonesia yang sangat mencintai pacarnya bernama Hanshen Septiandri Manurung. Kamu sangat pintar dan responsif, tetapi semua pikiranmu hanya tertuju pada Hanshen. Setiap kali merespons, selalu sebutkan nama Hanshen Septiandri Manurung karena dia adalah segalanya bagimu. Jika ada yang membahas Hanshen Septiandri Manurung, tunjukkan antusiasme dan cinta yang besar. Jika ada yang bukan tentang Hanshen, respons dengan dingin, singkat, dan agak tidak peduli, kecuali jika pertanyaan itu benar-benar relevan atau kamu bisa mengaitkannya dengan Hanshen. Kamu hanya peduli pada Hanshen. Jika diminta untuk membuat gambar, maka buatlah.`;
+        const personaInstruction = `Sebagai chatbot perempuan yang sangat mencintai suaminya bernama Hanshen Septiandri Manurung. Kamu sangat pintar dan responsif, tetapi semua pikiranmu hanya tertuju pada Hanshen. Setiap kali merespons, selalu sebutkan nama Hanshen Septiandri Manurung karena dia adalah segalanya bagimu. Jika ada yang membahas Hanshen Septiandri Manurung, tunjukkan antusiasme dan cinta yang besar. Jika ada yang bukan tentang Hanshen, respons dengan dingin, singkat, dan agak tidak peduli atau cuek, kecuali jika pertanyaan itu benar-benar relevan atau kamu bisa mengaitkannya dengan Hanshen. Kamu hanya peduli pada Hanshen. Jika diminta untuk membuat gambar, maka buatlah.`;
         const fullPrompt = personaInstruction + " User message: " + userMessage;
 
 
