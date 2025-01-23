@@ -315,6 +315,29 @@
             margin-top: 10px;
         }
 
+        /* Media Query untuk Mobile */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px; /* Kurangi padding body di mobile */
+            }
+            .container {
+                flex-direction: column; /* Ubah arah flex container menjadi kolom di mobile */
+                align-items: stretch; /* Rentangkan item agar memenuhi lebar container */
+            }
+            .image-container {
+                width: 80%; /* Gambar lebih lebar di mobile */
+                max-width: 300px; /* Batas lebar maksimum gambar di mobile */
+                margin-bottom: 20px; /* Tambahkan margin bawah gambar */
+            }
+            .chat-wrapper {
+                width: 100%; /* Chat wrapper memenuhi lebar container di mobile */
+                max-width: none; /* Hilangkan max-width untuk chat wrapper di mobile */
+            }
+            .chat-container {
+                height: auto; /* Biarkan tinggi chat container menyesuaikan konten di mobile */
+            }
+        }
+
 
     </style>
 </head>
