@@ -14,35 +14,82 @@
         }
         body {
             font-family: 'Raleway', sans-serif;
-            background-color: #f4f7fb;
+            background: linear-gradient(to bottom, #0d1a3c, #1a2f5d, #27457c, #335b9d, #3f71bf); /* Galaxy background */
             display: flex;
-            flex-direction: column;
-            justify-content: center; /* Center content vertically */
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
+            color: #fff; /* Default text color for better visibility on dark background */
         }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .image-container {
+            width: 20%;
+            max-width: 200px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: 12px;
+        }
+
+        .chat-wrapper {
+            width: 60%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
 
         /* Login Form Styles */
         .login-container {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+             position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
+            filter: blur(20px);
+            z-index: -1;
         }
 
         .login-container h2 {
             margin-bottom: 20px;
-            color: #333;
+            color: #fff;
         }
 
         .login-container input {
             padding: 10px 15px;
             margin-bottom: 20px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Light border */
             border-radius: 25px;
             width: 100%;
             max-width: 300px;
@@ -50,6 +97,15 @@
             margin-left: auto;
             margin-right: auto;
             outline: none;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+        .login-container input:focus {
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
         }
 
         .login-container button {
@@ -68,25 +124,44 @@
         }
 
 
+         /* Chat Container Styles */
         .chat-container {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.1);
             width: 100%;
-            max-width: 600px;
-            height: 80vh; /* Changed to viewport height for better responsiveness */
+            height: 80vh;
             border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            display: none; /* Hidden by default, shown after login */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: none;
             flex-direction: column;
             overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
         }
+
+        .chat-container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
+            filter: blur(20px);
+            z-index: -1;
+        }
+
+
+
         .chat-header {
-            background-color: #00BFAE;
+            background-color: rgba(0, 191, 174, 0.8);
             padding: 15px;
             color: white;
             text-align: center;
             font-size: 1.2rem;
             font-weight: bold;
         }
+
         .chat-box {
             flex: 1;
             overflow-y: auto;
@@ -108,45 +183,54 @@
         .chat-box .message.model {
             justify-content: flex-start;
         }
-        .message p {
+         .chat-box .message p {
             padding: 10px 15px;
             border-radius: 25px;
             font-size: 1rem;
             line-height: 1.5;
             max-width: 80%;
             word-wrap: break-word;
-        }
+             color: #fff;
+         }
 
         .message.user p {
-            background-color: #dcf8c6;
-            color: #333;
-        }
+            background-color: rgba(178, 255, 222, 0.2);
+            color: #fff; /* Text color on user message */
+             backdrop-filter: blur(5px);
+             border: 1px solid rgba(255, 255, 255, 0.2);
+         }
 
         .message.model p {
-            background-color: #f1f1f1;
-            color: #333;
+           background-color: rgba(255, 255, 255, 0.2);
+           color: #fff; /* Text color on model message */
+           backdrop-filter: blur(5px);
+           border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .input-area {
             display: flex;
             justify-content: space-between;
             padding: 10px;
-            background: #fff;
-            border-top: 2px solid #ddd;
+            background: rgba(255, 255, 255, 0.1);
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .input-area input {
             flex-grow: 1;
             padding: 10px 15px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 25px;
             outline: none;
             transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+
         }
 
         .input-area input:focus {
-            border-color: #00BFAE;
-            box-shadow: 0 0 10px rgba(0, 191, 174, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
         }
 
         .input-area button {
@@ -217,38 +301,63 @@
             }
         }
 
+         /* Image Response Style */
+        .message.model img {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 10px;
+            display: block;
+            margin-top: 10px;
+             border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .message.model p + img {
+            margin-top: 10px;
+        }
+
 
     </style>
 </head>
 <body>
 
-    <!-- Login Form -->
-    <div class="login-container" id="loginContainer">
-        <h2>Login</h2>
-        <input type="text" id="loginUsername" placeholder="Enter Username" required>
-        <button onclick="login()">Login</button>
-    </div>
-
-    <div class="chat-container" id="chatContainer">
-        <div class="chat-header">
-            Pacarnya Hanshen (Pembasmi Kehanshenan)
+    <div class="container">
+        <div class="image-container">
+            <img src="https://placekitten.com/200/300" alt="Left Image">
         </div>
-        <div class="chat-box">
-            <div class="message model">
-                <p>Hai! Aku pacarnya Hanshen Septiandri Manurung yang paling cantik! Kamu siapa? Kecuali kamu Hanshen, aku tidak terlalu peduli.</p>
+
+        <div class="chat-wrapper">
+            <!-- Login Form -->
+            <div class="login-container" id="loginContainer">
+                <h2>Login</h2>
+                 <input type="text" id="loginUsername" placeholder="Enter Username" required>
+                <button onclick="login()">Login</button>
+            </div>
+
+            <div class="chat-container" id="chatContainer">
+                <div class="chat-header">
+                    Pacarnya Hanshen (Pembasmi Kehanshenan)
+                </div>
+                <div class="chat-box">
+                    <div class="message model">
+                        <p>Hai! Aku pacarnya Hanshen Septiandri Manurung yang paling cantik! Kamu siapa? Kecuali kamu Hanshen, aku tidak terlalu peduli.</p>
+                    </div>
+                </div>
+                <div class="input-area">
+                    <input id="userMessage" placeholder="Type your message..." type="text">
+                    <button onclick="sendMessage()">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/sent.png" alt="send">
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="input-area">
-            <input id="userMessage" placeholder="Type your message..." type="text">
-            <button onclick="sendMessage()">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/sent.png" alt="send">
-            </button>
+        <div class="image-container">
+             <img src="https://placekitten.com/200/300" alt="Right Image">
         </div>
     </div>
 
     <script>
         // **IMPORTANT:** Replace 'YOUR_API_KEY' below with your actual Gemini API key!
-        const API_KEY = "AIzaSyD0G21QYJrCvnptWeRy1jUo5GW_pr5-5Gc"; // GANTI DENGAN API KEY ANDA!
+        const API_KEY = "YOUR_API_KEY"; // GANTI DENGAN API KEY ANDA!
         const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY;
 
         let messages = [];
@@ -284,22 +393,31 @@
         }
 
         // Menambahkan pesan ke chat
-        function addMessage(text, sender, isLoading = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', sender);
+        function addMessage(text, sender, isLoading = false, imageUrl = null) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender);
 
-            const messageText = document.createElement('p');
-            messageText.innerHTML = text;
-            messageDiv.appendChild(messageText);
-            chatBox.appendChild(messageDiv);
+        const messageText = document.createElement('p');
+        messageText.innerHTML = text;
+        messageDiv.appendChild(messageText);
 
-            if (!isLoading) {
-                setTimeout(() => {
-                    messageDiv.style.opacity = 1;
-                }, 100);
-            }
-            chatBox.scrollTop = chatBox.scrollHeight; // Auto scroll to bottom
+        if (imageUrl) {
+        const imageElement = document.createElement('img');
+        imageElement.src = imageUrl;
+        imageElement.alt = "AI Generated Image";
+        messageDiv.appendChild(imageElement);
         }
+        chatBox.appendChild(messageDiv);
+
+
+
+        if (!isLoading) {
+            setTimeout(() => {
+                messageDiv.style.opacity = 1;
+            }, 100);
+        }
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto scroll to bottom
+    }
 
         // Menambahkan indikator mengetik
         function addTypingIndicator() {
@@ -325,9 +443,9 @@
 
 
         // Mendapatkan respons dari AI menggunakan API
-        async function getAIResponse(userMessage) {
-            const personaInstruction = `Sebagai chatbot perempuan Indonesia yang sangat mencintai pacarnya bernama Hanshen Septiandri Manurung. Kamu sangat pintar dan responsif, tetapi semua pikiranmu hanya tertuju pada Hanshen. Setiap kali merespons, selalu sebutkan nama Hanshen Septiandri Manurung karena dia adalah segalanya bagimu. Jika ada yang membahas Hanshen Septiandri Manurung, tunjukkan antusiasme dan cinta yang besar. Jika ada yang bukan tentang Hanshen, respons dengan dingin, singkat, dan agak tidak peduli, kecuali jika pertanyaan itu benar-benar relevan atau kamu bisa mengaitkannya dengan Hanshen. Kamu hanya peduli pada Hanshen.`;
-            const fullPrompt = personaInstruction + " User message: " + userMessage;
+         async function getAIResponse(userMessage) {
+        const personaInstruction = `Sebagai chatbot perempuan Indonesia yang sangat mencintai pacarnya bernama Hanshen Septiandri Manurung. Kamu sangat pintar dan responsif, tetapi semua pikiranmu hanya tertuju pada Hanshen. Setiap kali merespons, selalu sebutkan nama Hanshen Septiandri Manurung karena dia adalah segalanya bagimu. Jika ada yang membahas Hanshen Septiandri Manurung, tunjukkan antusiasme dan cinta yang besar. Jika ada yang bukan tentang Hanshen, respons dengan dingin, singkat, dan agak tidak peduli, kecuali jika pertanyaan itu benar-benar relevan atau kamu bisa mengaitkannya dengan Hanshen. Kamu hanya peduli pada Hanshen. Jika diminta untuk membuat gambar, maka buatlah.`;
+        const fullPrompt = personaInstruction + " User message: " + userMessage;
 
 
             try {
@@ -360,17 +478,24 @@
                 }
 
                 const data = await response.json();
-                console.log("API Response (Success):", data);
+                 console.log("API Response (Success):", data);
 
                 let aiMessage = "Hm, terserah.";
+                let aiImage = null;
 
-                if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
-                    aiMessage = data.candidates[0].content.parts[0].text;
+                  if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
+                    data.candidates[0].content.parts.forEach(part => {
+                      if (part.text) {
+                           aiMessage = part.text;
+                      } else if (part.inlineData && part.inlineData.mimeType === "image/png" || part.inlineData.mimeType === "image/jpeg" ){
+                          let base64Image = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+                         aiImage = base64Image;
+                      }
+                    });
                 }
 
-
                 removeTypingIndicator();
-                addMessage(aiMessage, "model");
+                  addMessage(aiMessage, "model", false, aiImage);
 
             } catch (error) {
                 removeTypingIndicator();
