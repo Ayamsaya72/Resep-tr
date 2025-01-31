@@ -3,529 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat Assistant</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Ultimate Game Collection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Raleway', sans-serif;
-            background: linear-gradient(to bottom, #0d1a3c, #1a2f5d, #27457c, #335b9d, #3f71bf); /* Galaxy background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
-            color: #fff; /* Default text color for better visibility on dark background */
-        }
-
-        .container {
-            display: flex;
-            width: 100%;
-            max-width: 1200px;
-            margin: auto;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .image-container {
-            width: 20%;
-            max-width: 200px;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .image-container img {
-            max-width: 100%;
-            border-radius: 12px;
-        }
-
-        .chat-wrapper {
-            width: 60%;
-            max-width: 600px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-
-        /* Login Form Styles */
-        .login-container {
-            background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
-             position: relative;
-            overflow: hidden;
-        }
-
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
-            filter: blur(20px);
-            z-index: -1;
-        }
-
-        .login-container h2 {
-            margin-bottom: 20px;
-            color: #fff;
-        }
-
-        .login-container input {
-            padding: 10px 15px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3); /* Light border */
-            border-radius: 25px;
-            width: 100%;
-            max-width: 300px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            outline: none;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-
-        .login-container input:focus {
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-        }
-
-        .login-container button {
-            background-color: #00BFAE;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .login-container button:hover {
-            background-color: #009286;
-        }
-
-
-         /* Chat Container Styles */
-        .chat-container {
-            background: rgba(255, 255, 255, 0.1);
-            width: 100%;
-            height: 80vh;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-        }
-
-        .chat-container::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
-            filter: blur(20px);
-            z-index: -1;
-        }
-
-
-
-        .chat-header {
-            background-color: rgba(0, 191, 174, 0.8);
-            padding: 15px;
-            color: white;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        .chat-box {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-box .message {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            opacity: 0;
-            animation: fadeIn 0.6s forwards;
-        }
-        .chat-box .message.user {
-            justify-content: flex-end;
-        }
-        .chat-box .message.model {
-            justify-content: flex-start;
-        }
-         .chat-box .message p {
-            padding: 10px 15px;
-            border-radius: 25px;
-            font-size: 1rem;
-            line-height: 1.5;
-            max-width: 80%;
-            word-wrap: break-word;
-             color: #fff;
-         }
-
-        .message.user p {
-            background-color: rgba(178, 255, 222, 0.2);
-            color: #fff; /* Text color on user message */
-             backdrop-filter: blur(5px);
-             border: 1px solid rgba(255, 255, 255, 0.2);
-         }
-
-        .message.model p {
-           background-color: rgba(255, 255, 255, 0.2);
-           color: #fff; /* Text color on model message */
-           backdrop-filter: blur(5px);
-           border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .input-area {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-top: 2px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        .input-area input {
-            flex-grow: 1;
-            padding: 10px 15px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 25px;
-            outline: none;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-
-        }
-
-        .input-area input:focus {
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
-        }
-
-        .input-area button {
-            background-color: #00BFAE;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .input-area button:hover {
-            transform: scale(1.1);
-        }
-
-        .input-area button img {
-            width: 20px;
-            height: 20px;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Typing animation styles */
-        .typing-indicator {
-            display: flex;
-            justify-content: center;
-        }
-
-        .typing-indicator span {
-            width: 8px;
-            height: 8px;
-            margin: 0 2px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            animation: typing 1s infinite;
-        }
-
-        .typing-indicator span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-indicator span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes typing {
-            0% {
-                opacity: 0.4;
-                transform: translateY(0);
-            }
-            50% {
-                opacity: 1;
-                transform: translateY(-3px);
-            }
-            100% {
-                opacity: 0.4;
-                transform: translateY(0);
-            }
-        }
-
-         /* Image Response Style */
-        .message.model img {
-            max-width: 300px;
-            max-height: 300px;
-            border-radius: 10px;
-            display: block;
-            margin-top: 10px;
-             border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .message.model p + img {
-            margin-top: 10px;
-        }
-
-        /* Media Query untuk Mobile */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px; /* Kurangi padding body di mobile */
-            }
-            .container {
-                flex-direction: column; /* Ubah arah flex container menjadi kolom di mobile */
-                align-items: stretch; /* Rentangkan item agar memenuhi lebar container */
-            }
-            .image-container {
-                width: 80%; /* Gambar lebih lebar di mobile */
-                max-width: 300px; /* Batas lebar maksimum gambar di mobile */
-                margin-bottom: 20px; /* Tambahkan margin bawah gambar */
-            }
-            .chat-wrapper {
-                width: 100%; /* Chat wrapper memenuhi lebar container di mobile */
-                max-width: none; /* Hilangkan max-width untuk chat wrapper di mobile */
-            }
-            .chat-container {
-                height: auto; /* Biarkan tinggi chat container menyesuaikan konten di mobile */
-            }
-        }
-
-
+        /* ... (CSS sebelumnya tetap sama) ... */
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <div class="image-container">
-            <img src="kiri.png" alt="Left Image">
-        </div>
-
-        <div class="chat-wrapper">
-            <!-- Login Form -->
-            <div class="login-container" id="loginContainer">
-                <h2>Login</h2>
-                 <input type="text" id="loginUsername" placeholder="Enter Username" required>
-                <button onclick="login()">Login</button>
-            </div>
-
-            <div class="chat-container" id="chatContainer">
-                <div class="chat-header">
-                    Istrinya Hanshen
-                </div>
-                <div class="chat-box">
-                    <div class="message model">
-                        <p>Hai! Aku Istrinya Hanshen Septiandri Manurung yang paling cantik! Kamu siapa? Kecuali kamu Hanshen, aku tidak terlalu peduli.</p>
-                    </div>
-                </div>
-                <div class="input-area">
-                    <input id="userMessage" placeholder="Type your message..." type="text">
-                    <button onclick="sendMessage()">
-                        <img src="https://img.icons8.com/ios-filled/50/ffffff/sent.png" alt="send">
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="image-container">
-             <img src="kanan.png" alt="Right Image">
+    <!-- Main Menu -->
+    <div class="container py-5" id="mainMenu">
+        <h1 class="text-center mb-5 display-4 fw-bold" style="color: var(--primary)">
+            🎮 Ultimate Game Collection
+        </h1>
+        
+       <div class="row g-4">
+            <!-- Daftar Game -->
+            
+            <!-- ... (Game card lainnya) ... -->
         </div>
     </div>
 
+    <!-- Game Screens -->
+    <!-- Guess Number Game -->
+    <div class="game-screen" id="guessGame">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card game-card">
+                        <div class="card-body text-center">
+                            <h2 class="mb-4">Guess the Number (1-100)</h2>
+                            <input type="number" id="guessInput" class="form-control mb-3" placeholder="Enter number">
+                            <button onclick="checkGuess()" class="btn btn-primary mb-3">Check</button>
+                            <p id="guessResult" class="h5"></p>
+                            <p>Attempts: <span id="attempts">0</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Snake Game -->
+    <div class="game-screen" id="snakeGame">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <canvas id="snakeCanvas" width="400" height="400"></canvas>
+                    <div class="mt-4">
+                        <p class="h4">Score: <span id="snakeScore">0</span></p>
+                        <button onclick="resetSnake()" class="btn btn-outline-primary mt-2">
+                            Restart Game
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ... (Game screen lainnya) ... -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // **IMPORTANT:** Replace 'YOUR_API_KEY' below with your actual Gemini API key!
-        const API_KEY = "AIzaSyD0G21QYJrCvnptWeRy1jUo5GW_pr5-5Gc"; // GANTI DENGAN API KEY ANDA!
-        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY;
+        // Navigation System
+        let currentGame = null;
 
-        let messages = [];
-        const chatBox = document.querySelector('.chat-box');
-        const chatContainer = document.getElementById('chatContainer');
-        const loginContainer = document.getElementById('loginContainer');
-        let username = ""; // Variable to store username
+        function showGame(gameId) {
+            if(currentGame) {
+                document.getElementById(currentGame).style.display = 'none';
+            }
+            document.getElementById('mainMenu').style.opacity = '0.2';
+            
+            const gameScreen = document.getElementById(gameId + 'Game');
+            gameScreen.style.display = 'block';
+            currentGame = gameId + 'Game';
+            
+            // Initialize game
+            switch(gameId) {
+                case 'snake': initSnake(); break;
+                case 'guess': initGuess(); break;
+                case 'memory': initMemory(); break;
+                case 'reaction': initReaction(); break;
+                case 'click': initClick(); break;
+            }
+            
+            // Show back button
+            const backBtn = `<button onclick="backToMenu()" 
+                              class="back-btn btn btn-primary shadow">
+                              ← Back to Menu
+                            </button>`;
+            document.body.insertAdjacentHTML('beforeend', backBtn);
+        }
 
+        function backToMenu() {
+            document.getElementById(currentGame).style.display = 'none';
+            document.getElementById('mainMenu').style.opacity = '1';
+            currentGame = null;
+            document.querySelector('.back-btn').remove();
+        }
 
-        // Login Function
-        function login() {
-            username = document.getElementById('loginUsername').value;
-            if (username.trim() !== "") {
-                loginContainer.style.display = 'none';
-                chatContainer.style.display = 'flex'; // Show chat container
-                // Add a welcome message in chat
-                addMessage(`Hai ${username}!  Senang bertemu denganmu. Tapi tetap saja, Hanshen Septiandri Manurung adalah prioritasku.`, "model");
-            } else {
-                alert("Username cannot be empty!");
+        // ======================
+        // GUESS NUMBER GAME
+        // ======================
+        function initGuess() {
+            let targetNumber = Math.floor(Math.random() * 100) + 1;
+            let attempts = 0;
+
+            window.checkGuess = function() {
+                const userGuess = parseInt(document.getElementById('guessInput').value);
+                attempts++;
+                document.getElementById('attempts').textContent = attempts;
+
+                if(userGuess === targetNumber) {
+                    document.getElementById('guessResult').textContent = "🎉 Correct! You won!";
+                    document.getElementById('guessResult').style.color = "#2ed573";
+                    setTimeout(() => {
+                        targetNumber = Math.floor(Math.random() * 100) + 1;
+                        attempts = 0;
+                        document.getElementById('attempts').textContent = attempts;
+                        document.getElementById('guessInput').value = '';
+                        document.getElementById('guessResult').textContent = '';
+                    }, 2000);
+                } else {
+                    const hint = userGuess > targetNumber ? "📉 Too high!" : "📈 Too low!";
+                    document.getElementById('guessResult').textContent = hint;
+                    document.getElementById('guessResult').style.color = "#ff4757";
+                }
             }
         }
 
+        // ======================
+        // SNAKE GAME
+        // ======================
+        function initSnake() {
+            const canvas = document.getElementById('snakeCanvas');
+            const ctx = canvas.getContext('2d');
+            let snake = [{x: 10, y: 10}];
+            let direction = 'right';
+            let food = spawnFood();
+            let score = 0;
+            let gameLoop;
 
-        // Kirim pesan
-        function sendMessage() {
-            const userMessage = document.getElementById('userMessage').value;
-            if (userMessage.trim() !== "") {
-                addMessage(userMessage, "user");
-                document.getElementById('userMessage').value = "";
-                addTypingIndicator(); // Show typing animation
-                getAIResponse(userMessage);
+            function spawnFood() {
+                return {
+                    x: Math.floor(Math.random() * 40),
+                    y: Math.floor(Math.random() * 40)
+                };
             }
-        }
 
-        // Menambahkan pesan ke chat
-        function addMessage(text, sender, isLoading = false, imageUrl = null) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', sender);
-
-        const messageText = document.createElement('p');
-        messageText.innerHTML = text;
-        messageDiv.appendChild(messageText);
-
-        if (imageUrl) {
-        const imageElement = document.createElement('img');
-        imageElement.src = imageUrl;
-        imageElement.alt = "AI Generated Image";
-        messageDiv.appendChild(imageElement);
-        }
-        chatBox.appendChild(messageDiv);
-
-
-
-        if (!isLoading) {
-            setTimeout(() => {
-                messageDiv.style.opacity = 1;
-            }, 100);
-        }
-        chatBox.scrollTop = chatBox.scrollHeight; // Auto scroll to bottom
-    }
-
-        // Menambahkan indikator mengetik
-        function addTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.classList.add('message', 'model');
-            typingDiv.classList.add('typing-indicator');
-            typingDiv.innerHTML = `
-                <span></span>
-                <span></span>
-                <span></span>
-            `;
-            chatBox.appendChild(typingDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        // Menghapus indikator mengetik
-        function removeTypingIndicator() {
-            const typingIndicator = chatBox.querySelector('.typing-indicator');
-            if (typingIndicator) {
-                typingIndicator.closest('.message').remove();
-            }
-        }
-
-
-        // Mendapatkan respons dari AI menggunakan API
-         async function getAIResponse(userMessage) {
-        const personaInstruction = `Sebagai chatbot perempuan yang sangat mencintai suaminya bernama Hanshen Septiandri Manurung. Kamu sangat pintar dan responsif, tetapi semua pikiranmu hanya tertuju pada Hanshen. Setiap kali merespons, selalu sebutkan nama Hanshen Septiandri Manurung karena dia adalah segalanya bagimu. Jika ada yang membahas Hanshen Septiandri Manurung, tunjukkan antusiasme dan cinta yang besar. Jika ada yang bukan tentang Hanshen, respons dengan dingin, singkat, dan agak tidak peduli atau cuek, kecuali jika pertanyaan itu benar-benar relevan atau kamu bisa mengaitkannya dengan Hanshen. Kamu hanya peduli pada Hanshen. Jika diminta untuk membuat gambar, maka buatlah.`;
-        const fullPrompt = personaInstruction + " User message: " + userMessage;
-
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: fullPrompt }]
-                        }]
-                    })
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw snake
+                ctx.fillStyle = '#6c5ce7';
+                snake.forEach(segment => {
+                    ctx.beginPath();
+                    ctx.roundRect(segment.x * 10, segment.y * 10, 8, 8, 4);
+                    ctx.fill();
                 });
+                
+                // Draw food
+                ctx.fillStyle = '#ff7675';
+                ctx.beginPath();
+                ctx.arc(food.x * 10 + 4, food.y * 10 + 4, 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
 
-                if (!response.ok) {
-                    removeTypingIndicator();
-                    addMessage(`Error: ${response.status} - ${response.statusText}`, "model");
-                    console.error("HTTP error! status:", response.status, response.statusText);
-                    try {
-                        const errorData = await response.json();
-                        console.error("API Error Details:", errorData);
-                        if (errorData.error && errorData.error.message) {
-                            addMessage(`API Error Message: ${errorData.error.message}`, "model");
-                        }
-                    } catch (jsonError) {
-                        console.error("Error parsing JSON error response:", jsonError);
-                    }
+            function gameStep() {
+                const head = {...snake[0]};
+                
+                switch(direction) {
+                    case 'up': head.y--; break;
+                    case 'down': head.y++; break;
+                    case 'left': head.x--; break;
+                    case 'right': head.x++; break;
+                }
+                
+                // Collision detection
+                if (head.x < 0 || head.x >= 40 || head.y < 0 || head.y >= 40 ||
+                    snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                    gameOver();
                     return;
                 }
-
-                const data = await response.json();
-                 console.log("API Response (Success):", data);
-
-                let aiMessage = "Hm, terserah.";
-                let aiImage = null;
-
-                  if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
-                    data.candidates[0].content.parts.forEach(part => {
-                      if (part.text) {
-                           aiMessage = part.text;
-                      } else if (part.inlineData && part.inlineData.mimeType === "image/png" || part.inlineData.mimeType === "image/jpeg" ){
-                          let base64Image = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
-                         aiImage = base64Image;
-                      }
-                    });
+                
+                snake.unshift(head);
+                
+                // Food collision
+                if (head.x === food.x && head.y === food.y) {
+                    score += 10;
+                    document.getElementById('snakeScore').textContent = score;
+                    food = spawnFood();
+                } else {
+                    snake.pop();
                 }
-
-                removeTypingIndicator();
-                  addMessage(aiMessage, "model", false, aiImage);
-
-            } catch (error) {
-                removeTypingIndicator();
-                addMessage("Ugh, ada yang salah. Coba lagi saja, atau tidak juga tidak apa-apa.", "model");
-                console.error("Fetch error:", error);
+                
+                draw();
             }
+
+            function gameOver() {
+                clearInterval(gameLoop);
+                alert(`Game Over! Score: ${score}`);
+            }
+
+            function handleKeyPress(e) {
+                const key = e.key.replace('Arrow', '').toLowerCase();
+                const opposites = {up: 'down', down: 'up', left: 'right', right: 'left'};
+                if (direction !== opposites[key]) {
+                    direction = key;
+                }
+            }
+
+            // Start game
+            gameLoop = setInterval(gameStep, 100);
+            document.addEventListener('keydown', handleKeyPress);
         }
+
+        // ... (Implementasi game lainnya) ...
+
+        // Initialize pertama kali
+        initGuess();
     </script>
 </body>
 </html>
